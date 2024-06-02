@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emuach Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #153448;
+        }
+
+        button{
+            border: none;
+            background-color: #FFC55A;
+            padding: 10px;
+            border-radius: 25px;
+            color: white;
+            color: #153448;
+        }
+        .center {
+            text-align: center;
+            position: relative;
+            display: inline-block;
+        }
+        #baseImage {
+            display: block;
+        }
+        #image {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            width: 100%;
+        }
+        .animate {
+            animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 0.5s forwards;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <div class="center">
+        <h1 style="color: white;">Emuach</h1>
+        <h4 style="color: white;">Seberapa emuach kamu</h4>
+        <h3 style="color: white;">Skor: <span id="score">0</span></h3>
+
+        <div style="position: relative; display: inline-block;">
+            <img id="baseImage" src="1.jpeg" alt="" width="200">
+            <img id="image" src="2.jpeg" alt="" width="200">
+        </div>
+        <br><br>
+        <button id="clickButton">Klik Aku!</button>
+        <button id="muteButton">Mute</button>
+        <audio id="clickSound" src="0602.MP3"></audio>
+    </div>
+
+    <script>
+        let score = 0;
+        let isMuted = false;
+        const scoreElement = document.getElementById('score');
+        const imageElement = document.getElementById('image');
+        const clickSound = document.getElementById('clickSound');
+
+        document.getElementById('clickButton').addEventListener('click', () => {
+            score++;
+            scoreElement.textContent = score;
+
+            imageElement.style.display = 'block';
+            imageElement.classList.add('animate');
+
+            imageElement.addEventListener('animationend', () => {
+                imageElement.classList.remove('animate');
+                imageElement.style.display = 'none';
+            }, { once: true });
+
+            // Play sound
+            if (!isMuted) {
+                clickSound.currentTime = 0;
+                clickSound.play();
+            }
+        });
+
+        document.getElementById('muteButton').addEventListener('click', () => {
+            isMuted = !isMuted;
+            document.getElementById('muteButton').textContent = isMuted ? 'Unmute' : 'Mute';
+        });
+    </script>
+    </center>
+</body>
+</html>
